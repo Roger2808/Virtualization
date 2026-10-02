@@ -5,7 +5,7 @@
 
 Configuración de un clúster local con **Minikube**, **MetalLB** y **Traefik** para publicar cuatro aplicaciones web mediante diferentes dominios.
 
-* **Namespace aplicaciones:** `parcial-rm`
+* **Namespace aplicaciones:** `parcial-rlmr`
 * **Namespace Traefik:** `traefik`
 * **Namespace MetalLB:** `metallb-system`
 * **IP de Traefik:** `192.168.49.240`
@@ -42,9 +42,25 @@ MetalLB asignó la IP:
 
 ---
 
-## 3. Aplicaciones
+## 3. Namespaces
 
-Se crearon cuatro aplicaciones web con Nginx dentro del namespace `parcial-rm`.
+![NS](docs/namespaces.png)
+
+---
+
+## 4. Pods y Servicios
+
+### Pods
+![Pods](docs/podsapps.png)
+
+### Services
+![SVC](docs/4svc.png)
+
+---
+
+## 5. Aplicaciones
+
+Se crearon cuatro aplicaciones web con Nginx dentro del namespace `parcial-rlmr`.
 
 Cada aplicación cuenta con:
 
@@ -64,7 +80,7 @@ Los `Deployment` y sus respectivos `ConfigMap` se encuentran definidos en los ar
 
 ---
 
-## 4. IngressRoutes
+## 6. IngressRoutes
 
 Se configuraron cuatro `IngressRoute` para que Traefik dirija cada dominio hacia su Service correspondiente.
 
@@ -72,7 +88,7 @@ Se configuraron cuatro `IngressRoute` para que Traefik dirija cada dominio hacia
 
 ---
 
-## 5. DNS local
+## 7. DNS local
 
 Se agregaron los dominios al archivo `/etc/hosts`, todos apuntando a la IP de Traefik:
 
@@ -87,7 +103,7 @@ Se agregaron los dominios al archivo `/etc/hosts`, todos apuntando a la IP de Tr
 
 ---
 
-## 6. Configuración de red en WSL
+## 8. Configuración de red en WSL
 
 Debido a que el entorno utiliza **WSL2** y Minikube con Docker, fue necesario agregar una ruta hacia la IP asignada por MetalLB para poder acceder desde WSL:
 
@@ -99,7 +115,7 @@ La ruta permite que las solicitudes desde WSL lleguen a la IP `192.168.49.240` a
 
 ---
 
-## 7. Navegador en WSL
+## 9. Navegador en WSL
 
 Para realizar las pruebas de acceso desde el mismo entorno WSL se instaló **Firefox**:
 
@@ -110,19 +126,19 @@ sudo apt install firefox
 
 Posteriormente se verificó el acceso a las cuatro aplicaciones mediante sus respectivos dominios.
 
-### App 1
+### App 1 - NGINX
 
 ![App 1](docs/navegadorapp1.png)
 
-### App 2
+### App 2 - NGINX
 
 ![App 2](docs/navegadorapp2.png)
 
-### App 3
+### App 3 - Uptime Kuma
 
 ![App 3](docs/navegadorapp3.png)
 
-### App 4
+### App 4 - Whoami
 
 ![App 4](docs/navegadorapp4.png)
 

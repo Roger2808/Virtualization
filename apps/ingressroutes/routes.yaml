@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: app1-route
-  namespace: parcial-rm
+  namespace: parcial-rlmr
 spec:
   entryPoints:
     - web
@@ -17,7 +17,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: app2-route
-  namespace: parcial-rm
+  namespace: parcial-rlmr
 spec:
   entryPoints:
     - web
@@ -32,7 +32,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: app3-route
-  namespace: parcial-rm
+  namespace: parcial-rlmr
 spec:
   entryPoints:
     - web
@@ -47,7 +47,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: app4-route
-  namespace: parcial-rm
+  namespace: parcial-rlmr
 spec:
   entryPoints:
     - web
