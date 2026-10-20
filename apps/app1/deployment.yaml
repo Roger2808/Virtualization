@@ -1,0 +1,121 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app1-html
+  namespace: parcial-rlmr
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Aplicación 1</title>
+
+      <style>
+        * {
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: Arial, sans-serif;
+          background: #f4f6f8;
+          color: #1f2937;
+        }
+
+        .card {
+          width: 90%;
+          max-width: 620px;
+          padding: 50px;
+          text-align: center;
+          background: white;
+          border-radius: 18px;
+          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .badge {
+          display: inline-block;
+          padding: 7px 15px;
+          margin-bottom: 22px;
+          border-radius: 20px;
+          background: #e8f5e9;
+          color: #2e7d32;
+          font-size: 14px;
+          font-weight: bold;
+        }
+
+        h1 {
+          margin: 0 0 15px;
+          font-size: 38px;
+        }
+
+        p {
+          margin: 8px 0;
+          color: #6b7280;
+          font-size: 17px;
+          line-height: 1.6;
+        }
+
+        .footer {
+          margin-top: 30px;
+          padding-top: 20px;
+          border-top: 1px solid #e5e7eb;
+          color: #9ca3af;
+          font-size: 14px;
+        }
+      </style>
+    </head>
+
+    <body>
+      <main class="card">
+        <div class="badge">Servicio activo</div>
+
+        <h1>Aplicación 1</h1>
+
+        <p>
+          Bienvenido a la primera aplicación del proyecto.
+        </p>
+
+        <p>
+          Servicio web gestionado mediante Kubernetes y Traefik.
+        </p>
+
+        <div class="footer">
+          Kubernetes · Traefik · Nginx
+        </div>
+      </main>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1
+  namespace: parcial-rlmr
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app1
+  template:
+    metadata:
+      labels:
+        app: app1
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html
+          configMap:
+            name: app1-html
