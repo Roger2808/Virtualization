@@ -1,0 +1,26 @@
+
+daemonset:
+  enabled: true
+
+deployment:
+  enabled: false
+
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+
+config:
+  clients:
+    - url: http://loki-gateway.monitoring-rlmr.svc.cluster.local/loki/api/v1/push
+
+  snippets:
+    pipelineStages:
+      - cri: {}
+
+    extraRelabelConfigs:
+      - action: keep
+        source_labels:
+          - __meta_kubernetes_namespace
+        regex: "parcial-rlmr|traefik"

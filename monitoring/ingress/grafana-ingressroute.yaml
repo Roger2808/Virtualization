@@ -1,0 +1,15 @@
+
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-route
+  namespace: monitoring-rlmr
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`grafana.app1.local`)
+      services:
+        - name: grafana
+          port: 80

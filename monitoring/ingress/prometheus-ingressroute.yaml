@@ -1,0 +1,15 @@
+
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus-route
+  namespace: monitoring-rlmr
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`prometheus.app1.local`)
+      services:
+        - name: monitoring-kube-prometheus-prometheus
+          port: 9090

@@ -1,0 +1,63 @@
+replicas: 1
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 80
+
+persistence:
+  type: pvc
+  enabled: true
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  size: 2Gi
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 192Mi
+  limits:
+    memory: 512Mi
+
+admin:
+  existingSecret: grafana-admin
+  userKey: admin-user
+  passwordKey: admin-password
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        uid: prometheus
+        type: prometheus
+        access: proxy
+        url: http://monitoring-kube-prometheus-prometheus.monitoring-rlmr.svc.cluster.local:9090
+        isDefault: true
+        editable: false
+
+      - name: Loki
+        uid: loki
+        type: loki
+        access: proxy
+        url: http://loki-gateway.monitoring-rlmr.svc.cluster.local
+        editable: false
+
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    labelValue: "1"
+    searchNamespace: monitoring-rlmr
+    resource: configmap
+    folder: /tmp/dashboards
+    provider:
+      name: default
+      orgid: 1
+      folder: ""
+      type: file
+      disableDelete: false
+      allowUiUpdates: false
+initChownData:
+  enabled: false
